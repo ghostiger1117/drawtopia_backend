@@ -81,6 +81,89 @@ const validateUserData = (userData) => {
   };
 };
 
+// Story-specific validation functions
+const validateCharacterType = (characterType) => {
+  const validTypes = ['person', 'animal', 'magical_creature'];
+  return validTypes.includes(characterType);
+};
+
+const validateCharacterStyle = (characterStyle) => {
+  const validStyles = ['3d', 'cartoon', 'anime'];
+  return validStyles.includes(characterStyle);
+};
+
+const validateStoryWorld = (storyWorld) => {
+  const validWorlds = ['forest', 'space', 'underwater'];
+  return validWorlds.includes(storyWorld);
+};
+
+const validateAdventureType = (adventureType) => {
+  const validTypes = ['treasure_hunt', 'helping_friend'];
+  return validTypes.includes(adventureType);
+};
+
+const validateStoryStatus = (status) => {
+  const validStatuses = [
+    'draft', 'processing_character', 'extracting_features', 
+    'generating_scenes', 'generating_story', 'completed', 'failed'
+  ];
+  return validStatuses.includes(status);
+};
+
+const validateCharacterName = (name) => {
+  if (!name || typeof name !== 'string') return false;
+  
+  // Allow letters, spaces, hyphens, apostrophes, numbers (for character names like "Bot-3000")
+  const nameRegex = /^[a-zA-Z0-9\s\-']{1,100}$/;
+  return nameRegex.test(name.trim());
+};
+
+const validateStoryTitle = (title) => {
+  if (!title || typeof title !== 'string') return false;
+  
+  // Allow letters, spaces, numbers, common punctuation
+  const titleRegex = /^[a-zA-Z0-9\s\-'",.:!?]{1,200}$/;
+  return titleRegex.test(title.trim());
+};
+
+// Comprehensive story validation function
+const validateStoryData = (storyData) => {
+  const errors = [];
+  
+  if (storyData.character_name && !validateCharacterName(storyData.character_name)) {
+    errors.push('Character name must be 1-100 characters and contain only letters, numbers, spaces, hyphens, and apostrophes');
+  }
+  
+  if (storyData.character_type && !validateCharacterType(storyData.character_type)) {
+    errors.push('Character type must be one of: person, animal, magical_creature');
+  }
+  
+  if (storyData.character_style && !validateCharacterStyle(storyData.character_style)) {
+    errors.push('Character style must be one of: 3d, cartoon, anime');
+  }
+  
+  if (storyData.story_world && !validateStoryWorld(storyData.story_world)) {
+    errors.push('Story world must be one of: forest, space, underwater');
+  }
+  
+  if (storyData.adventure_type && !validateAdventureType(storyData.adventure_type)) {
+    errors.push('Adventure type must be one of: treasure_hunt, helping_friend');
+  }
+  
+  if (storyData.story_title && !validateStoryTitle(storyData.story_title)) {
+    errors.push('Story title must be 1-200 characters and contain only letters, numbers, spaces, and common punctuation');
+  }
+  
+  if (storyData.status && !validateStoryStatus(storyData.status)) {
+    errors.push('Status must be one of: draft, processing_character, extracting_features, generating_scenes, generating_story, completed, failed');
+  }
+  
+  return {
+    isValid: errors.length === 0,
+    errors
+  };
+};
+
 module.exports = {
   validateEmail,
   validatePhone,
@@ -88,5 +171,13 @@ module.exports = {
   validateAgeGroup,
   validateRelationship,
   validateName,
-  validateUserData
+  validateUserData,
+  validateCharacterType,
+  validateCharacterStyle,
+  validateStoryWorld,
+  validateAdventureType,
+  validateStoryStatus,
+  validateCharacterName,
+  validateStoryTitle,
+  validateStoryData
 }; 
