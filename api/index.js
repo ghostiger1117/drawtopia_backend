@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const mainRouter = require('./api/routes');
+const mainRouter = require('./routes');
 
 app.use('/api', mainRouter);
 
