@@ -67,10 +67,12 @@ exports.sendOtp = async (req, res) => {
       const { data, error } = await supabaseAuth.auth.signInWithOtp({
         email: email.toLowerCase().trim(),
         options: {
-          shouldCreateUser: true,
-          data: {
-            email_verified: false
-          }
+          // shouldCreateUser: true,
+          emailRedirectTo : 'http://localhost:3000',
+          // data: {
+          //   // email_verified: false
+
+          // }
         }
       });
       
